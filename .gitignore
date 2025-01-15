@@ -1,0 +1,21 @@
+# Node.js specific
+node_modules/
+dist/
+.env
+
+# Logs
+*.log
+logs/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.iml
+
+# Build artifacts
+build/
+coverage/
