@@ -118,7 +118,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./src/types/express"]
+    "typeRoots": ["node_modules/@types", "src/types"]
   },
   "include": ["src/**/*"]
   }

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import Inventory  from '../models/inventory'; // Adjust import path based on your model
+import Inventory from '../models/inventory'; // Adjust import path based on your model
 
 // Create Inventory Item
-
 export const createInventoryItem = async (req: Request, res: Response) => {
   const { name, quantity, price } = req.body;
+console.log(req.user);
 
   try {
     // Validate input
@@ -14,7 +14,7 @@ export const createInventoryItem = async (req: Request, res: Response) => {
     }
 
     // Ensure the user is authenticated
-    if (!req.user) {
+    if (!req.user || !req.user.id) {
       res.status(401).json({ message: 'Unauthorized: User not logged in' });
       return;
     }
@@ -27,8 +27,10 @@ export const createInventoryItem = async (req: Request, res: Response) => {
       name,
       quantity,
       price,
-      userId, // Include userId
+      userId, // Use the userId directly from req.user
     });
+
+    console.log({ name, quantity, price, userId });
 
     // Save the item to the database
     await newItem.save();
@@ -37,12 +39,13 @@ export const createInventoryItem = async (req: Request, res: Response) => {
       message: 'Inventory item created successfully',
       item: newItem,
     });
+    return;
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+    return;
   }
 };
-
 
 // Update Inventory Item
 export const updateInventoryItem = async (req: Request, res: Response) => {
@@ -53,8 +56,8 @@ export const updateInventoryItem = async (req: Request, res: Response) => {
     // Find the inventory item
     const item = await Inventory.findById(itemId);
     if (!item) {
-     res.status(404).json({ message: 'Inventory item not found' }) 
-    return;
+      res.status(404).json({ message: 'Inventory item not found' });
+      return;
     }
 
     // Update the item details
@@ -65,15 +68,15 @@ export const updateInventoryItem = async (req: Request, res: Response) => {
     // Save the updated item
     await item.save();
 
-  res.status(200).json({
+    res.status(200).json({
       message: 'Inventory item updated successfully',
       item,
-    })
-    return ;
+    });
+    return;
   } catch (error) {
     console.error(error);
-     res.status(500).json({ message: 'Internal server error' })
-     return;
+    res.status(500).json({ message: 'Internal server error' });
+    return;
   }
 };
 
@@ -85,17 +88,17 @@ export const deleteInventoryItem = async (req: Request, res: Response) => {
     // Find and delete the inventory item
     const item = await Inventory.findByIdAndDelete(itemId);
     if (!item) {
-       res.status(404).json({ message: 'Inventory item not found' })
-       return;
+      res.status(404).json({ message: 'Inventory item not found' });
+      return;
     }
 
-     res.status(200).json({
+    res.status(200).json({
       message: 'Inventory item deleted successfully',
-    })
+    });
     return;
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal server error' })
+    res.status(500).json({ message: 'Internal server error' });
     return;
   }
 };
@@ -104,11 +107,11 @@ export const deleteInventoryItem = async (req: Request, res: Response) => {
 export const getAllInventoryItems = async (req: Request, res: Response) => {
   try {
     const items = await Inventory.find();
-     res.status(200).json({ items })
+    res.status(200).json({ items });
     return;
   } catch (error) {
     console.error(error);
-     res.status(500).json({ message: 'Internal server error' })
+    res.status(500).json({ message: 'Internal server error' });
     return;
   }
 };
@@ -120,16 +123,16 @@ export const getInventoryItemById = async (req: Request, res: Response) => {
   try {
     const item = await Inventory.findById(itemId);
     if (!item) {
-     res.status(404).json({ message: 'Inventory item not found' })
-     return;
+      res.status(404).json({ message: 'Inventory item not found' });
+      return;
     }
 
-     res.status(200).json({ item })
+    res.status(200).json({ item });
     return;
   } catch (error) {
     console.error(error);
-     res.status(500).json({ message: 'Internal server error' })
-     return;
+    res.status(500).json({ message: 'Internal server error' });
+    return;
   }
 };
 

@@ -1,19 +1,14 @@
-import { Router } from 'express';
-import Middleware from '../middlewares/authMiddlewares';
-import { 
-  createInventoryItem, 
-  updateInventoryItem, 
-  deleteInventoryItem, 
-  getAllInventoryItems, 
-  getInventoryItemById 
-} from '../controllers/inventoryControl';
+import express from 'express';
+import authMiddleware from '../middlewares/authMiddlewares'; // Adjust the path
+import inventoryController from '../controllers/inventoryControl'; // Adjust the path
 
-const router = Router();
+const router = express.Router();
 
-router.post('/', Middleware, createInventoryItem); // Create an inventory item
-router.put('/:itemId', Middleware, updateInventoryItem); // Update an inventory item
-router.delete('/:itemId', Middleware, deleteInventoryItem); // Delete an inventory item
-router.get('/', Middleware, getAllInventoryItems); // Get all inventory items
-router.get('/:itemId', Middleware, getInventoryItemById); // Get an individual inventory item
+// Protect the routes with the verifyToken middleware
+router.post('/inventory', authMiddleware.verifyToken, inventoryController.createInventoryItem);
+router.put('/inventory/:itemId', authMiddleware.verifyToken, inventoryController.updateInventoryItem);
+router.delete('/inventory/:itemId', authMiddleware.verifyToken, inventoryController.deleteInventoryItem);
+router.get('/inventory', inventoryController.getAllInventoryItems); // No authentication needed for listing items
+router.get('/inventory/:itemId', inventoryController.getInventoryItemById); // No authentication needed for getting a specific item
 
 export default router;
