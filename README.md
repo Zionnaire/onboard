@@ -26,7 +26,6 @@ Installation
 Create a .env file in the root directory of the project and add the following variables:
 # MongoDB Configuration
 MONGO_URI=
-
 JWT_SECRET=MYSECRET
 PORT=5000
 JWT Expiration Time: JWT_EXPIRES_IN=1h
