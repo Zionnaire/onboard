@@ -25,7 +25,7 @@ Installation
    cd onboarding-app then npm install.
 Create a .env file in the root directory of the project and add the following variables:
 # MongoDB Configuration
-MONGO_URI=mongodb+srv://zionnaire2018:Zionnaire2017$@onboarding.sijck.mongodb.net/?retryWrites=true&w=majority&appName=onboarding
+MONGO_URI=
 
 JWT_SECRET=MYSECRET
 PORT=5000
