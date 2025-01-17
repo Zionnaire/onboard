@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import Inventory from '../models/inventory'; // Adjust import path based on your model
+import {JwtPayload} from 'jsonwebtoken'
 
 // Create Inventory Item
-export const createInventoryItem = async (req: Request, res: Response) => {
+export const createInventoryItem = async (req: JwtPayload, res: Response) => {
   const { name, quantity, price } = req.body;
 console.log(req.user);
 

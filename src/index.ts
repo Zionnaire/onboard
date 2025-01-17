@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import authRoute from './routes/authRoute';
 import inventoryRoute from './routes/inventoryRoute';
 import connectDB from './configs/db'; // Assuming connectDB is a default export from db.ts
+import paymentRoutes from './routes/paymentRoute'; // Adjust the path to your routes file
+
 // const cors = require('cors');
 // import cors from 'cors';
 const cors: any = require('cors'); // Use any type for now
@@ -30,6 +32,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoute);
 app.use('/api/inventory', inventoryRoute);
+app.use('/api', paymentRoutes);
+
 
 // Connect to MongoDB
 connectDB();
